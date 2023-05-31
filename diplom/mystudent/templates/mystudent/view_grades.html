@@ -1,0 +1,27 @@
+<h2>Выберите студента, курс и введите оценку</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+  </form>
+  <h2>Список всех оценок</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Студент</th>
+        <th>Предмет</th>
+        <th>Оценка</th>
+        <th>Удаление</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for grade in grades %}
+        <tr>
+          <td>{{ grade.student.name }}</td>
+          <td>{{ grade.course.name }}</td>
+          <td>{{ grade.value }}</td>
+          <td><a href="{% url 'delete_grade' grade.id %}">Удалить</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>

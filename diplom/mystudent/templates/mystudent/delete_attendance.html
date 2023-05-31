@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<head>
+ <style>
+  /* CSS стили для меню */
+  .menu {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 10px;
+   background-color: #333;
+   color: #fff;
+  }
+
+  .menu li {
+   list-style: none;
+  }
+
+  .menu a {
+   color: #fff;
+   text-decoration: none;
+   padding: 5px;
+   border-bottom: 2px solid transparent;
+  }
+
+  .menu a:hover {
+   border-bottom: 2px solid #fff;
+   padding-bottom: 1px;
+  }
+
+  /* CSS стили для оформления страниц */
+  .page {
+   padding: 20px;
+   margin: 20px;
+   background-color: #f5f5f5;
+   border: 1px solid #ccc;
+   box-shadow: 0px 0px 5px #ccc;
+  }
+
+  /* CSS стили для форм */
+  .form-container {
+   max-width: 600px;
+   margin: auto;
+   padding: 20px;
+   background-color: #fff;
+   border-radius: 5px;
+   box-shadow: 0px 0px 5px #ccc;
+  }
+
+  .form-container h1 {
+   text-align: center;
+  }
+
+  .form-container form {
+   width: 100%;
+  }
+
+  .form-container input[type="text"], .form-container input[type="number"], .form-container select {
+   padding: 5px 10px;
+   margin-bottom: 10px;
+   width: 100%;
+   border: none;
+   border-radius: 3px;
+   background-color: #f5f5f5;
+  }
+
+  .form-container input[type="text"]:focus, .form-container input[type="number"]:focus, .form-container select:focus {
+   outline: none;
+   background-color: #fff;
+   box-shadow: 0px 0px 5px #ccc;
+  }
+
+  .form-container input[type="submit"] {
+   background-color: #333;
+   color: #fff;
+   border: none;
+   padding: 10px 20px;
+   cursor: pointer;
+   border-radius: 3px;
+  }
+
+  .form-container input[type="submit"]:hover {
+   background-color: #888;
+  }
+ </style>
+</head>
+
+<body>
+ <main>
+  <div class="page">
+   <h1>Удаление посещения</h1>
+   <div class="form-container">
+    <form method="post">
+     {% csrf_token %}
+     {{ form.as_p }}
+     <button type="submit" class="btn btn-success"> Удалить посещение </button>
+    </form>
+   </div>
+  </div>
+ </main>
+</body>
+</html>

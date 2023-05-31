@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Дипломная работа</title>
+ <style>
+  /* CSS стили для меню */
+  .menu {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 10px;
+   background-color: #333;
+   color: #fff;
+  }
+
+  .menu li {
+   list-style: none;
+  }
+
+  .menu a {
+   color: #fff;
+   text-decoration: none;
+   padding: 5px;
+   border-bottom: 2px solid transparent;
+  }
+
+  .menu a:hover {
+   border-bottom: 2px solid #fff;
+   padding-bottom: 1px;
+  }
+
+  /* CSS стили для оформления страниц */
+  .page {
+   padding: 20px;
+   margin: 20px;
+   background-color: #f5f5f5;
+   border: 1px solid #ccc;
+   box-shadow: 0px 0px 5px #ccc;
+   height: 500px;
+  }
+
+  /* CSS стили для форм */
+  form {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin-top: 20px;
+  }
+
+  table {
+   border-collapse: collapse;
+   width: 100%;
+  }
+
+  th, td {
+   text-align: left;
+   padding: 8px;
+  }
+
+  th {
+   background-color: #333;
+   color: white;
+  }
+
+  tr:nth-child(even) {
+   background-color: #f2f2f2;
+  }
+
+ </style>
+</head>
+<body>
+ <header class="menu">
+  <ul>
+   <li><a href="#">Главная</a></li>
+   <li><a href="attendance">О посещении</a></li>
+   <li><a href="session">Сессия</a></li>
+  </ul>
+  <ul>
+   <li>
+    {% if user.is_authenticated %}
+        <a href="logout">Выйти</a>
+    {% else %}
+        <a href="login">Войти</a> |  <a href="register">Регистрация</a>
+    {% endif %}
+    </li>
+  </ul>
+ </header>
+ <main>
+  <h1>Добро пожаловать, {{ request.user.student.name }}!</h1>
+  <h2>Ваши оценки:</h2>
+  <table>
+    <tr>
+      <th>Предмет</th>
+      <th>Оценка</th>
+      <th>Тип оценки</th>
+      <th>Дата</th>
+      <th>Средний бал</th>
+    </tr>
+    {% for course, data in courses.items %}
+      <tr>
+        <td>{{ course }}</td>
+        <td>
+          <ul>
+            {% for grade in data.grades %}
+              {% if not grade.grade_type == "Экзамен" or not grade.grade_type == "Зачет" %}
+              <li>{{ grade.value }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </td>
+        <td>
+          <ul>
+            {% for grade in data.grades %}
+              {% if not grade.grade_type == "Экзамен" or not grade.grade_type == "Зачет" %}
+              <li>{{ grade.grade_type }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </td>
+        <td>
+          <ul>
+            {% for grade in data.grades %}
+              {% if not grade.grade_type == "Экзамен" or not grade.grade_type == "Зачет" %}
+              <li>{{ grade.date|date:"d.m.Y" }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </td>
+        <td>{{ data.avg_grade }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+ </main>
+</body>
+</html>
