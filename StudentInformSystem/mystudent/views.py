@@ -1,21 +1,16 @@
-from datetime import datetime
-
-from django.contrib import messages
-from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import render
 
 # Create your views here.
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import user_passes_test, login_required
 
-from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
+
+from django.shortcuts import render, redirect
+
 from django.views import View
 
 from .models import *
 from .forms import GradesForm, UserCreationForm, DeleteGradeForm, CourseForm, AttendanceForm, GradesChangeForm, \
     DeleteAttendanceForm
-
+from email_sending import send_email
 
 def main_page_for_stu(request):
     user = request.user
@@ -34,7 +29,10 @@ def main_page_for_stu(request):
                 total_grades = sum([grade.value for grade in courses[course]['grades']])
                 num_of_grades = len(courses[course]['grades'])
                 if num_of_grades > 0:
-                    courses[course]['avg_grade'] = round(total_grades / num_of_grades, 2)
+                    avg_score = round(total_grades / num_of_grades, 2)
+                    courses[course]['avg_grade'] = avg_score
+                    if avg_score<4:
+                        send_email(request)
             context = {'student': student, 'courses': courses}
             return render(request, 'mystudent/home_student.html', context)
 
